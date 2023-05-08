@@ -7,6 +7,7 @@ if(isset($_POST['submit'])) {
     foreach($users as $user) {
         if($email == $user[1] && $password == $user[2]) {
             session_start();
+            $_SESSION['pseudo'] = $user[0];
             $_SESSION['email'] = $email;
             header("Location: index.php");
             exit();

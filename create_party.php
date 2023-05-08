@@ -41,7 +41,11 @@ if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['email'])) {
         fputcsv($file, $data);
         fclose($file);
 
-        header("Location: index.php");
+        
+
+
+
+        header("Location: salon.php?partie=" . urlencode($nom_partie));
         exit();
     
 } else {

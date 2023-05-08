@@ -30,6 +30,7 @@ if(isset($_POST['submit'])) {
 
     session_start();
     $_SESSION['email'] = $email;
+    $_SESSION['pseudo'] = $pseudo;
 
     try {
     $data = array($pseudo, $email, $motdepasse);

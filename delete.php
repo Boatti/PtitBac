@@ -41,7 +41,7 @@ foreach ($newLines as $line) {
 fclose($file);
 
 
-
+unset($_SESSION['salon']);
 header("Location: index.php");
 
 ?>

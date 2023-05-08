@@ -40,7 +40,7 @@ foreach ($newLines as $line) {
 fclose($file);
 
 
-
+$_SESSION['salon'] = $party_name;
 
 header("Location: salon.php?partie=$party_name");
 

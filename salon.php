@@ -5,6 +5,13 @@ if (!(isset($_SESSION['email']))) {
     header("Location: connexion.php");
     exit();
 }
+
+if (!(isset($_SESSION['salon']))) {
+    header("Location: index.php");
+    exit();
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +23,7 @@ if (!(isset($_SESSION['email']))) {
 </head>
 <body>
     <div>
-	<h1>Nom du salon : 
+	<h1>Nom du salon :
 
 <?php 
 $nom_partie = $_GET['partie'];
@@ -54,7 +61,7 @@ foreach($getParty as $party) {
 fgetcsv($file);
 
 while (($data = fgetcsv($file, 0, ',')) !== false) {
-    if($nom_partie == $party[0]) {
+    if($data[0] == $nom_partie) {
     // Accéder à la troisième colonne qui contient les noms des participants
     if (!empty($data[2])) {
 
@@ -80,7 +87,7 @@ fclose($file);
     if ($handle) {
         while (($data = fgetcsv($handle, 1000, ',')) !== false) {
             if (strpos($data[0], $nom_partie) !== false) {
-                if ($data[1] == $_SESSION['pseudo']) {
+                if ($data[1] == $_SESSION['pseudo'] and ($data[0] == $nom_partie))  {
 
                     $file = fopen('parties.csv', 'r');
                     $isFirstLine = true;
@@ -91,19 +98,28 @@ fclose($file);
                             continue;
                         }
                         
-                        if ($data[0] == $nom_partie) {
+                        if ($data[0] == $nom_partie and $data[1] == $_SESSION['pseudo']) {
+                            if (!empty($data[2])) {
                             $participants = explode(',', $data[2]);
                             $count = count($participants);
-                            echo "Le nombre de participants est : $count";
+                            echo "Le nombre de participants est de : $count";
+                            echo "<form action='lancer.php' method='POST'>
+                                <input type='hidden' name='count' value='$count'>
+                                <input type='hidden' name='party_name' value='$nom_partie'>
+                                <button id='lancerPartie' type='submit'>Lancer la partie</button>
+                                </form>";
+                            } else {
+                                echo "<form action='lancer.php' method='POST'>
+                                <input type='hidden' name='party_name' value='$nom_partie'>
+                            <button id='lancerPartie' type='submit'>Lancer la partie</button>
+                            </form>";
+                            }
                         }
                     }
 
                     fclose($file);
 
-                    echo "<form action='lancer.php' method='POST'>
-                        <input type='hidden' name='party_name' value='$count'>
-                            <button id='lancerPartie' type='submit'>Lancer la partie</button>
-                            </form>";
+                    
 
                     echo "<form action='delete.php' method='POST'>
                             <input type='hidden' name='party_name' value='$nom_partie'>
@@ -124,7 +140,7 @@ fclose($file);
 	}
     ?>
 
-<script>
+<!-- <script>
 
 // Récupérer le bouton de démarrage de la partie
 const startButton = document.getElementById('startGame');
@@ -149,7 +165,7 @@ startButton.addEventListener('click', () => {
   });
 });
 
-</script>
+</script> -->
 
 
 </body>

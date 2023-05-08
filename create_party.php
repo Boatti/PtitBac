@@ -18,14 +18,6 @@ if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['email'])) {
                     header("Location: index.php");
                     exit();
                 }
-            /* foreach ($salonIndex as $data) {
-                    $data = str_getcsv($data);
-                    $salon = $data[$salonIndex];
-                        // Vérifie si le nom de salon n'existe pas déjà
-                    if (!in_array($salon, $existingSalons)) {
-                            $existingSalons[] = $salon;
-                        }
-                    } */
         }
     }
 
@@ -41,10 +33,8 @@ if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['email'])) {
         fputcsv($file, $data);
         fclose($file);
 
-        
 
-
-
+        $_SESSION['salon'] = $nom_partie;
         header("Location: salon.php?partie=" . urlencode($nom_partie));
         exit();
     

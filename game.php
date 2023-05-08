@@ -1,24 +1,44 @@
+<?php
+  session_start();
+  if (!(isset($_SESSION['email']))) {
+      header("Location: connexion.php");
+      exit();
+  }
+?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Le petit Bac | Salon</title>
+	<title>Le petit Bac | Game</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="connexion.css">
 </head>
 <body>
 
 <div>
-    <h3>La lettre est </h3>
-    <div>Animal : <input class='inputMot' type="text"></div>
-    <div>Ville : <input class='inputMot' type="text"></div>
-    <div>Jeux vidéo : <input class='inputMot' type="text"></div>
-    <div>Manga : <input class='inputMot' type="text"></div>
-    <div>Personnage fictif : <input class='inputMot' type="text"></div>
-    <div>Personnalité connus : <input class='inputMot' type="text"></div>
-    <div>Objet : <input class='inputMot' type="text"></div>
+    <h3>La lettre est <?php $file = 'parties.csv'; 
+$rows = array_map('str_getcsv', file($file)); 
+foreach ($rows as &$row) {
+    if ($row[0] == $_SESSION['salon']) {
+       echo $row[3];
+    }
+} ?></h3>
+<form id="formFinis" action='finis.php' method='POST'>
+    <div>Animal : <input name="animal" class='inputMot' type="text"></div>
+    <div>Ville : <input name="ville" class='inputMot' type="text"></div>
+    <div>Jeux-vidéo : <input name="jv" class='inputMot' type="text"></div>
+    <div>Manga : <input name="manga" class='inputMot' type="text"></div>
+    <div>Personnage fictif : <input name="fictif" class='inputMot' type="text"></div>
+    <div>Personnalité connue : <input name="connus" class='inputMot' type="text"></div>
+    <div>Objet : <input name="objet" class='inputMot' type="text"></div>
+    <button class='button' type='submit'>Finis</button>
+    </form>
 </div>
 
-<p id="timer">01:00</p>
+<p id="timer">01:00</p> 
+                         
+                       
 
 <script>
   // Récupération de l'élément HTML qui affichera le timer
@@ -42,6 +62,10 @@
     // Si le temps est écoulé, arrêter le timer
     if (remainingTime <= 0) {
       clearInterval(timerInterval);
+      setTimeout(function() {
+        document.getElementById("formFinis").submit();
+      }, 1000);
+
     }
   }
 

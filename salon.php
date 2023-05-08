@@ -20,6 +20,10 @@ if (!(isset($_SESSION['salon']))) {
 	<title>Le petit Bac | Salon</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="connexion.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<!-- Inclure jQuery-CSV -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
+	<!-- Votre code Javascript -->
 </head>
 <body>
     <div>
@@ -73,12 +77,10 @@ while (($data = fgetcsv($file, 0, ',')) !== false) {
     }
 }}
 
-
 fclose($file);
 ?>
 
 	</div>
-
 
     <?php
     $nom_partie = $_GET['partie'];
@@ -140,33 +142,48 @@ fclose($file);
 	}
     ?>
 
-<!-- <script>
+ <script>
 
-// Récupérer le bouton de démarrage de la partie
-const startButton = document.getElementById('startGame');
+const fileExists = (filePath) => {
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('HEAD', filePath, false);
+    xhr.send();
+    return xhr.status !== 404;
+  } catch (error) {
+    return false;
+  }
+}
 
-// Ajouter un écouteur d'événements pour le clic sur le bouton de démarrage
-startButton.addEventListener('click', () => {
-  // Envoyer une requête AJAX à un script PHP sur le serveur pour démarrer la partie
-  fetch('/gameE.php', {
-    method: 'POST',
-    body: JSON.stringify({ game_id: 1234 }),
-  })
-  .then(response => {
-    if (response.ok) {
-      // Rediriger les utilisateurs vers la page de jeu
-      window.location.href = '/jeu.php';
+setInterval(function() {
+    console.log('oui');
+    if (fileExists('parties.csv')) {
+        
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js", function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var partyName = urlParams.get('partie');
+
+  $.get("parties.csv", function(csv) {
+ 
+    var parties = $.csv.toObjects(csv);
+    console.log('non');
+
+    var damnPartie = parties.find(function(partie) {
+        
+      return partie['Nom partie'] === partyName;
+    });
+
+    if (damnPartie && damnPartie['Started'] === '1') {
+        window.location.href =  'game.php?partie='+partyName;
     } else {
-      console.error('Impossible de démarrer la partie.');
+      console.log("La partie 'Damn' n'a pas encore commencé.");
     }
-  })
-  .catch(error => {
-    console.error(error);
   });
 });
+    }
+}, 1000);
 
-</script> -->
-
+</script> 
 
 </body>
 </html>

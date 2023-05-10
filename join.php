@@ -6,7 +6,6 @@ if (!(isset($_SESSION['email']))) {
     exit();
 }
 
-// Récupérer le nom de la partie et le pseudo du nouveau participant
 $party_name = $_POST['party_name'];
 $session_pseudo = $_SESSION['pseudo'];
 

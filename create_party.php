@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_ACTIVE && isset($_SESSION['email'])) {
 
         if(!file_exists('parties.csv')) {
             $file = fopen('parties.csv', 'w');
-            fputcsv($file, array('Nom partie', 'Créateur partie', 'Participant', 'Lettre', 'Started'));
+            fputcsv($file, array('Nom partie', 'Créateur partie', 'Participant', 'Lettre', 'Started', 'isOver', 'isCorrected'));
         } else {
 
             $file = fopen('parties.csv', 'a');

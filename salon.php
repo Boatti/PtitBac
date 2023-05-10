@@ -19,15 +19,13 @@ if (!(isset($_SESSION['salon']))) {
 <head>
 	<title>Le petit Bac | Salon</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="connexion.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<!-- Inclure jQuery-CSV -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
-	<!-- Votre code Javascript -->
 </head>
 <body>
     <div>
-	<h1>Nom du salon :
+	<h1>Salon d'attente :
 
 <?php 
 $nom_partie = $_GET['partie'];
@@ -41,8 +39,8 @@ foreach($getParty as $party) {
 ?>
 </h1>
 </div>
-
-    <div id='host'>Host du salon : 
+<div id='all'>
+    <div id='host'>Host: <span class='hostBold'>
 
 <?php 
 $nom_partie = $_GET['partie'];
@@ -51,27 +49,24 @@ $getParty = array_map('str_getcsv', file('parties.csv'));
 foreach($getParty as $party) {
     if($nom_partie == $party[0]) {
         echo $party[1];
-        
     }}
 
     fclose($file);
-?></div>
+?></span></div>
 	
 	<div id='joueur'>
         Participants : <br>
         <?php
         $file = fopen('parties.csv', 'r');
-// Ignorer la première ligne qui contient les en-têtes de colonnes
 fgetcsv($file);
 
 while (($data = fgetcsv($file, 0, ',')) !== false) {
     if($data[0] == $nom_partie) {
-    // Accéder à la troisième colonne qui contient les noms des participants
     if (!empty($data[2])) {
 
         $participants = explode(',', $data[2]);
         foreach ($participants as $participant) {
-            echo "<span class='spanParticipant'>$participant</span><br>";
+            echo "<span class='hostBold'>$participant</span><br>";
         }
         break;
     }
@@ -104,33 +99,38 @@ fclose($file);
                             if (!empty($data[2])) {
                             $participants = explode(',', $data[2]);
                             $count = count($participants);
-                            echo "Le nombre de participants est de : $count";
-                            echo "<form action='lancer.php' method='POST'>
+                            echo "<div>Le nombre de participants est de : $count</div>";
+                            echo "<div class='divSelfCenter'><form action='lancer.php' method='POST'>
                                 <input type='hidden' name='count' value='$count'>
                                 <input type='hidden' name='party_name' value='$nom_partie'>
-                                <button id='lancerPartie' type='submit'>Lancer la partie</button>
-                                </form>";
+                                <button class='button' type='submit'>Lancer la partie</button>
+                                </form></div>";
                             } else {
-                                echo "<form action='lancer.php' method='POST'>
+                                echo "<div class='divSelfCenter'><form action='lancer.php' method='POST'>
                                 <input type='hidden' name='party_name' value='$nom_partie'>
-                            <button id='lancerPartie' type='submit'>Lancer la partie</button>
-                            </form>";
+                            <button class='button' type='submit'>Lancer la partie</button>
+                            </form></div>";
                             }
-                        }
+                        } 
+
+                        
                     }
 
                     fclose($file);
 
                     
 
-                    echo "<form action='delete.php' method='POST'>
+                    echo "<div class='divSelfCenter'><form action='delete.php' method='POST'>
                             <input type='hidden' name='party_name' value='$nom_partie'>
-                            <button id='deleteGame' type='submit'>Supprimer le salon</button>
-                            </form>";
-                }
+                            <button class='button' type='submit'>Supprimer le salon</button>
+                            </form></div>";
+                } else {
+                    echo "<div>L'hôte va démarrer la partie...</div>";
+                    }
             }
         }
         fclose($handle);
+        echo '</div>';
     }
     
     ?>
@@ -156,7 +156,6 @@ const fileExists = (filePath) => {
 }
 
 setInterval(function() {
-    console.log('oui');
     if (fileExists('parties.csv')) {
         
 $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js", function() {
@@ -166,7 +165,6 @@ $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.
   $.get("parties.csv", function(csv) {
  
     var parties = $.csv.toObjects(csv);
-    console.log('non');
 
     var damnPartie = parties.find(function(partie) {
         
@@ -175,13 +173,11 @@ $.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.
 
     if (damnPartie && damnPartie['Started'] === '1') {
         window.location.href =  'game.php?partie='+partyName;
-    } else {
-      console.log("La partie 'Damn' n'a pas encore commencé.");
-    }
+    } 
   });
 });
     }
-}, 1000);
+}, 500);
 
 </script> 
 

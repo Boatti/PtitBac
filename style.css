@@ -1,0 +1,152 @@
+body {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: rgb(8, 8, 55);
+    color: white;
+    font-family: 'GolosRegular';
+}
+
+#logo {
+    font-family: 'GolosBlack';
+}
+
+#formFinis {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.correc {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+}
+
+h4 {
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+
+#divClassement {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+   justify-content: center;
+
+}
+.title2{
+    font-family: 'GolosBold';
+}
+
+#login {
+    display: flex;
+    flex-direction: column;
+}
+
+#all {
+    flex-direction: column;
+    gap: 20px;
+    display: flex;
+}
+
+.divSelfCenter {
+    align-self: center;
+}
+
+.input {
+    padding-left: 10px;
+    width: 130px;
+    height: 30px;
+    border-radius: 30px;
+    border: 2px solid white;
+}
+
+.inputMot {
+    padding-left: 10px;
+    width: 130px;
+    height: 25px;
+    border-radius: 30px;
+    border: 2px solid white;
+}
+
+.hostBold {
+    font-family: 'GolosSemiBold';
+    color: rgb(177, 177, 255);
+}
+
+.salon {
+    font-family: 'GolosRegular';
+    width: 170px;
+    height: 80px;
+    border-radius: 20px;
+    background: black;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+}
+
+#divSalon {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+.button {
+    cursor: pointer;
+    height: 35px;
+    border: 3px solid black;
+    border-radius: 20px;
+    background: rgb(76, 105, 163);
+    color: white;
+}
+
+.formConx {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.formConx > label {
+    align-self: flex-start;
+}
+
+.error {
+    color: rgb(140, 2, 2);
+}
+
+@font-face {
+    font-family: "GolosBlack";
+    src: url("GOLOS/GolosText-Black.ttf");
+}
+
+@font-face {
+    font-family: "GolosExtraBold";
+    src: url("GOLOS/GolosText-ExtraBold.ttf");
+}
+
+@font-face {
+    font-family: "GolosBold";
+    src: url("GOLOS/GolosText-Bold.ttf");
+}
+
+@font-face {
+    font-family: "GolosSemiBold";
+    src: url("GOLOS/GolosText-SemiBold.ttf");
+}
+
+@font-face {
+    font-family: "GolosMedium";
+    src: url("GOLOS/GolosText-Medium.ttf");
+}
+
+@font-face {
+    font-family: "GolosRegular";
+    src: url("GOLOS/GolosText-Regular.ttf");
+}

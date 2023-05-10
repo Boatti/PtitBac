@@ -12,7 +12,7 @@ if (!isset($_SESSION['email'])) {
 <head>
 	<title>Le petit Bac</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="connexion.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
 
 </head>
 <body>
@@ -29,13 +29,13 @@ if (!isset($_SESSION['email'])) {
 } ?> ! </h1>
 
 <form action="logout.php" method="POST">
-    <input type="submit" name="logout" value="Log out">
+    <input type="submit" name="logout" class="button" value="Log out">
 </form>
 
 </div>
 
 <div id='creerPartie'>
-<form id="formCreate" method="POST" action="create_party.php">
+<form id="formCreate" class="formConx" method="POST" action="create_party.php">
   <input type="text" name="salon" placeholder="Nom de la partie" class="input" autocomplete="off" required><br>
   <button type="submit"  class='button'>Créer partie</button>
 </form>
@@ -49,40 +49,10 @@ if (!isset($_SESSION['email'])) {
 ?>
 
 
-  <div>Rejoindre une partie -</div>
-  <div id='partyContainer'></div>
 
-<!--   <script>
-function sendPartie(event) {
 
-  event.preventDefault();
-
-    // Récupère la div "partyContainer"
-    const partyContainer = document.getElementById('partyContainer');
-
-    // Récupère le formulaire de création de partie
-    const form = document.getElementById('formCreate');
-
-    // Ajoute un écouteur d'événements sur le formulaire
-    
-
-      const nomPartie = event.target.elements.salon.value; // Récupère le nom de la partie
-
-      // Crée une nouvelle div pour la partie
-      const divPartie = document.createElement('div');
-      divPartie.id = nomPartie
-      divPartie.textContent = nomPartie;
-
-      // Ajoute la nouvelle div à la div "partyContainer"
-      partyContainer.appendChild(divPartie);
-    
-      //event.target.submit();
-  
-
-  }
-  </script>
- -->
-
+<div id='divSalon'>
+<div>- Rejoindre une partie -</div>
  <?php
   if(file_exists('parties.csv')) {
 	$file = fopen('parties.csv', 'a');
@@ -90,14 +60,14 @@ function sendPartie(event) {
   $getParty = array_slice($getParty, 1);
   foreach($getParty as $party) {
       
-          echo "<form action='join.php' method='POST'>
+          echo "<div><form action='join.php' method='POST'>
           <input type='hidden' name='party_name' value='$party[0]'>
           <button class='salon' type='submit' name='party_name' value='$party[0]'>Rejoindre le salon : $party[0]</button>
-        </form>";
+        </form></div>";
       }
     }
 ?>
-
+</div>
 
 
 </body>

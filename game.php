@@ -12,7 +12,9 @@
 <head>
 	<title>Le petit Bac | Game</title>
 	<meta charset="utf-8">
-	<link rel="stylesheet" type="text/css" href="connexion.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.11/jquery.csv.min.js"></script>
 </head>
 <body>
 
@@ -24,7 +26,7 @@ foreach ($rows as &$row) {
        echo $row[3];
     }
 } ?></h3>
-<form id="formFinis" action='finis.php' method='POST'>
+<form id="formFinis" action='savingWords.php' method='POST'>
     <div>Animal : <input name="animal" class='inputMot' type="text"></div>
     <div>Ville : <input name="ville" class='inputMot' type="text"></div>
     <div>Jeux-vidéo : <input name="jv" class='inputMot' type="text"></div>
@@ -41,25 +43,56 @@ foreach ($rows as &$row) {
                        
 
 <script>
-  // Récupération de l'élément HTML qui affichera le timer
+   
+
+const fileExists = (filePath) => {
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('HEAD', filePath, false);
+    xhr.send();
+    return xhr.status !== 404;
+  } catch (error) {
+    return false;
+  }
+}
+
+setInterval(function() {
+    console.log('oui');
+    if (fileExists('parties.csv')) {
+        
+$.getScript("https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.3/jquery.csv.min.js", function() {
+    var urlParams = new URLSearchParams(window.location.search);
+    var partyName = urlParams.get('partie');
+
+  $.get("parties.csv", function(csv) {
+ 
+    var parties = $.csv.toObjects(csv);
+    console.log('non');
+
+    var damnPartie = parties.find(function(partie) {
+        
+      return partie['Nom partie'] === partyName;
+    });
+
+    if (damnPartie && damnPartie['isOver'] == '1') {
+      document.getElementById("formFinis").submit();
+    } 
+  });
+});
+    }
+}, 500);
+
   const timerElement = document.getElementById("timer");
 
-  // Définition de la durée du timer (en secondes)
   const duration = 60;
 
-  // Définition de la fonction qui mettra à jour l'affichage du timer
   function updateTimer() {
-    // Calcul du temps restant en secondes
     const remainingTime = Math.max(duration - Math.floor((new Date().getTime() - startTime) / 1000), 0);
 
-    // Conversion du temps restant en format mm:ss
     const minutes = Math.floor(remainingTime / 60).toString().padStart(2, "0");
     const seconds = (remainingTime % 60).toString().padStart(2, "0");
-
-    // Mise à jour de l'affichage du timer
     timerElement.innerText = `${minutes}:${seconds}`;
 
-    // Si le temps est écoulé, arrêter le timer
     if (remainingTime <= 0) {
       clearInterval(timerInterval);
       setTimeout(function() {
@@ -68,14 +101,9 @@ foreach ($rows as &$row) {
 
     }
   }
-
-  // Définition de la date de début du timer
   const startTime = new Date().getTime();
 
-  // Mise à jour initiale de l'affichage du timer
   updateTimer();
-
-  // Lancement du timer
   const timerInterval = setInterval(updateTimer, 1000);
 </script>
 
